@@ -1,0 +1,15 @@
+{
+    "name": "mehdibo/slack-batch",
+    "description": "Send slack invitations to multiple e-mails",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mehdi Bounya",
+            "email": "contact.mehdi@pm.me"
+        }
+    ],
+    "require": {
+        "splitbrain/php-cli": "^1.1"
+    }
+}
