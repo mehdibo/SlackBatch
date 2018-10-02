@@ -58,15 +58,17 @@ class InviteSender
         if ($response['ok'] === true) {
             return;
         }
-        if (in_array($response['error'], array_keys(self::WARNS))) {
-            throw new \Exception(self::WARNS[$response['error']], 0);
-        }
         $msg = $response['error'];
+        $code = 1;
+        if (in_array($response['error'], array_keys(self::WARNS))) {
+            $msg = self::WARNS[$response['error']];
+            $code = 0;
+        }
         if (in_array($response['error'], array_keys(self::ERRORS))) {
             $msg = self::ERRORS[$response['error']];
         }
         
-        throw new \Exception($msg, 1);
+        throw new \Exception($msg, $code);
     }
 
     /**
