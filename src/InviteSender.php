@@ -63,8 +63,7 @@ class InviteSender
         if (in_array($response['error'], array_keys(self::WARNS))) {
             $msg = self::WARNS[$response['error']];
             $code = 0;
-        }
-        if (in_array($response['error'], array_keys(self::ERRORS))) {
+        } elseif (in_array($response['error'], array_keys(self::ERRORS))) {
             $msg = self::ERRORS[$response['error']];
         }
         
