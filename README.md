@@ -1,5 +1,5 @@
 # SlackBatch
-Send batch invites from the CLI.
+Send Slack workspace invites to multiple e-mails from the CLI.
 
 # Usage
 
@@ -27,6 +27,8 @@ OPTIONS:
 ARGUMENTS:
    <src>                                       E-mails source.
 ```
+
+You need a legacy token, you can get one [from here](https://api.slack.com/custom-integrations/legacy-tokens).
 
 Currently SlackBatch only handles files, so you need to pass a file containing new line separated e-mails.
 
