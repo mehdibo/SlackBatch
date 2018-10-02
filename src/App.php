@@ -53,7 +53,7 @@ class App extends \splitbrain\phpcli\CLI
         $avl = implode(' - ', array_keys($this->fetchers));
         $options->registerOption('f', "Source options: $avl", null, 'format');
         $options->registerOption('fail-abort', 'If an invite fails abort sending.');
-        $options->registerOption('token', 'Slack auth token.', null, 'token');
+        $options->registerOption('token', 'Slack legacy auth token.', null, 'token');
         $options->registerArgument('src', 'E-mails source.');
     }
 
