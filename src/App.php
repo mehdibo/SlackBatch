@@ -109,7 +109,7 @@ class App extends \splitbrain\phpcli\CLI
             try {
                 $this->sender->send($email, $args);
             } catch(\Exception $e) {
-                $this->error('Failed sending invite to: '.$email);
+                $this->error('Failed sending invite to: \n'.$email);
                 $this->warning($e->getMessage());
                 if ($abort || $e->getCode() == 1) {
                     $this->fatal("Error occurred and we had to stop :/");
