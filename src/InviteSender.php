@@ -23,6 +23,7 @@ class InviteSender
     const ERRORS = [
         'not_allowed_token_type'    => 'Token type is not valid.',
         'invalid_auth'              => 'Invalid token',
+        'channel_not_found'         => 'Invalid channels'
     ];
 
     /**
