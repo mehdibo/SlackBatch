@@ -52,6 +52,7 @@ class App extends \splitbrain\phpcli\CLI
         $options->setHelp('Send batch Slack invitations using the Slack API.');
         $avl = implode(' - ', array_keys($this->fetchers));
         $options->registerOption('f', "Source options: $avl", null, 'format');
+        $options->registerOption('channels', "Default channels Comma-separated list of IDs (not names!)", null, 'channels');
         $options->registerOption('fail-abort', 'If an invite fails abort sending.');
         $options->registerOption('token', 'Slack legacy auth token.', null, 'token');
         $options->registerArgument('src', 'E-mails source.');
@@ -69,6 +70,9 @@ class App extends \splitbrain\phpcli\CLI
         if (!$options->getOpt('token')) {
             return $this->error('You need to pass a token (--token <token>).');
         }
+        $args = [];
+        if ($options->getOpt('channels') !== FALSE)
+            $args['channels'] = $options->getOpt('channels');
         $this->sender->token = $options->getOpt('token');
         $this->debug("Token set to: ".$this->sender->token);
 
@@ -86,7 +90,7 @@ class App extends \splitbrain\phpcli\CLI
 
         // Get e-mails
         $emails = $this->fetcher->fetch($options->getArgs('src')[0]);
-        $this->sendInvites($emails, (bool) $options->getOpt('fail-abort'));
+        $this->sendInvites($emails, (bool) $options->getOpt('fail-abort'), $args);
     }
 
     /**
@@ -97,13 +101,13 @@ class App extends \splitbrain\phpcli\CLI
      * 
      * @return void
      */
-    private function sendInvites(array $emails, bool $abort)
+    private function sendInvites(array $emails, bool $abort, array $args)
     {
         // Send invites
         foreach ($emails as $email) {
             $success = true;
             try {
-                $this->sender->send($email);
+                $this->sender->send($email, $args);
             } catch(\Exception $e) {
                 $this->error('Failed sending invite to: '.$email);
                 $this->warning($e->getMessage());
