@@ -39,6 +39,17 @@ class InviteSender
      */
     public $token;
 
+    private function validate_options(array $options):bool
+    {
+        $allowed_options = [];
+        foreach ($options as $option)
+        {
+            if (!in_array($option, $allowed_options))
+                return FALSE;
+        }
+        return TRUE;
+    }
+
     /**
      * Send invitation
      *
@@ -47,13 +58,16 @@ class InviteSender
      * @throws Exception When the invitation is not sent
      * @return void
      */
-    public function send(string $email)
+    public function send(string $email, array $options = [])
     {
+        if (!$this->validate_options($options))
+            throw new \Exception("Invite sender: invalid options");
         $post = [
             'token' => $this->token,
             'email' => $email,
         ];
         $post = array_merge($post, $this->fields);
+        $post = array_merge($post, $options);
         $response = json_decode($this->curl($post), true);
         if ($response['ok'] === true) {
             return;
