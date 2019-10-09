@@ -42,8 +42,8 @@ class InviteSender
 
     private function validate_options(array $options):bool
     {
-        $allowed_options = [];
-        foreach ($options as $option)
+        $allowed_options = ['channels'];
+        foreach ($options as $option => $value)
         {
             if (!in_array($option, $allowed_options))
                 return FALSE;
@@ -66,6 +66,7 @@ class InviteSender
         $post = [
             'token' => $this->token,
             'email' => $email,
+            'channels' => $options['channels'] ?? '',
         ];
         $post = array_merge($post, $this->fields);
         $post = array_merge($post, $options);
