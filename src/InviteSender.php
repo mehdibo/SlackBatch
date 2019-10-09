@@ -61,6 +61,7 @@ class InviteSender
      */
     public function send(string $email, array $options = [])
     {
+        $wait = 1;
         if (!$this->validate_options($options))
             throw new \Exception("Invite sender: invalid options");
         $post = [
@@ -73,6 +74,15 @@ class InviteSender
         $response = json_decode($this->curl($post), true);
         if ($response['ok'] === true) {
             return;
+        }
+        while ($response['error'] === 'invite_limit_reached')
+        {
+            $response = json_decode($this->curl($post), true);
+            if ($response['ok'] === true) {
+                return;
+            }
+            sleep($wait);
+            $wait *= 2;
         }
         $msg = $response['error'];
         $code = 1;
