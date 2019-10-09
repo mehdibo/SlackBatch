@@ -71,8 +71,6 @@ class App extends \splitbrain\phpcli\CLI
             return $this->error('You need to pass a token (--token <token>).');
         }
         $args = [];
-        if ($options->getOpt('channels') !== FALSE)
-            $args['channels'] = $options->getOpt('channels');
         $this->sender->token = $options->getOpt('token');
         $this->debug("Token set to: ".$this->sender->token);
 
@@ -84,6 +82,13 @@ class App extends \splitbrain\phpcli\CLI
             );
         }
         $this->debug("Selected fetcher: ".$options->getOpt('f'));
+        // Get channels
+        if ($options->getOpt('channels') !== FALSE)
+        {
+            $args['channels'] = explode(',', $options->getOpt('channels'));
+            $args['channels'] = array_filter($args['channels']);
+            $args['channels'] = implode(',', $args['channels']);
+        }
 
         // Create appropriate fetcher class
         $this->fetcher = new $this->fetchers[$options->getOpt('f')];
